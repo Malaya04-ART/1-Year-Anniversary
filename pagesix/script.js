@@ -39,6 +39,6 @@ const easterEggHeart = document.getElementById('easter-egg-heart');
 setTimeout(() => {
   easterEggHeart.classList.add('glow');
   easterEggHeart.addEventListener('click', () => {
-    window.location.href = "/easter-egg/index.html"; // make sure this path exists
+    window.location.href = "/1-Year-Anniversary/easter-egg/index.html"; // make sure this path exists
   });
 }, 5000);
