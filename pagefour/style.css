@@ -1,0 +1,152 @@
+body {
+  background-color: #ffd6e0;
+  background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
+  background-size: 20px 20px;
+  font-family: "Press Start 2P", cursive;
+  color: #7a294e;
+  text-align: center;
+  overflow: hidden;
+  padding: 60px 0;
+}
+
+/* CRT glow */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(rgba(255,255,255,0.02) 0 1px, transparent 1px 2px);
+  pointer-events: none;
+  z-index: 99;
+}
+
+/* === TITLE === */
+.title {
+  font-size: 18px;
+  color: #7a294e;
+  text-shadow: 2px 2px 0 #ff8fab;
+  margin-bottom: 40px;
+}
+
+/* === WALL === */
+.wall-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* === POST-IT NOTES === */
+.note {
+  width: 200px;
+  min-height: 120px;
+  padding: 18px;
+  font-size: 10px;
+  line-height: 1.5;
+  color: #7a294e;
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px) rotate(var(--tilt, -2deg));
+  animation: popIn 0.8s ease forwards;
+  animation-delay: var(--delay, 0s);
+  cursor: pointer;
+  border-radius: 6px;
+  border: 3px solid #7a294e;
+  box-shadow: 4px 4px 0 #ff8fab, inset -2px -2px 0 #ffeef4;
+  background-color: var(--color, #ffe5ec);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  image-rendering: pixelated;
+}
+
+.note:hover {
+  transform: scale(1.05) rotate(0deg);
+  box-shadow: 4px 4px 6px rgba(255, 182, 193, 0.8);
+}
+
+.note:hover::after {
+  content: "💖";
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  animation: popHeart 0.6s ease forwards;
+}
+
+/* === ANIMATIONS === */
+@keyframes popIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--tilt, -2deg));
+  }
+}
+
+@keyframes popHeart {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* Float animation for post-its */
+@keyframes floaty {
+  from { transform: translateY(0) rotate(var(--tilt)); }
+  to { transform: translateY(-5px) rotate(calc(var(--tilt) * -1)); }
+}
+
+/* === PIXEL BUTTONS === */
+.pixel-button {
+  background: #fff;
+  color: #000;
+  border: 3px solid #000;
+  padding: 8px 14px;
+  text-decoration: none;
+  font-size: 10px;
+  box-shadow: 4px 4px #000;
+  transition: all 0.1s ease-in-out;
+  font-family: "Press Start 2P", cursive;
+  text-transform: uppercase;
+}
+
+.pixel-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 2px #000;
+}
+
+.nav-buttons {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  gap: 10px;
+  z-index: 50;
+}
+
+/* === PROGRESS BAR === */
+.progress-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: #989898;
+  border-top: 3px solid #f4a4c8;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #7a294e;
+  transition: width 0.6s ease;
+}
+
+
+.sparkle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}

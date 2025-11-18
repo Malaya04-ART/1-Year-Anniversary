@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Memories 📸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>A Year With You 📸</h1>
+
+  <!-- 🧷 Corkboard grid -->
+  <div class="photo-grid">
+    <!-- 12 Photos -->
+    <div class="photo" data-caption="After Our First Date 💫"><img src="image1.jpg" alt="Memory 1"></div>
+    <div class="photo" data-caption="Our First Hallowen together accordion"><img src="image 2.jpg" alt="Memory 2"></div>
+    <div class="photo" data-caption="Our First Holliday 🎄"><img src="image 3.jpg" alt="Memory 3"></div>
+    <div class="photo" data-caption="HAPPY NEW YEARS 🎆"><img src="image 4.jpg" alt="Memory 4"></div>
+    <div class="photo" data-caption="Charle XCX 💚"><img src="image 5.jpg" alt="Memory 5"></div>
+    <div class="photo" data-caption="Forever my favorite person 💗"><img src="image 6.jpg" alt="Memory 6"></div>
+    <div class="photo" data-caption="San Deigo 🛫"><img src="image 7.jpg" alt="Memory 7"></div>
+    <div class="photo" data-caption="So Much Walking 🚶🏾‍♀️‍➡️🚶🏾‍➡️"><img src="image 8.jpg" alt="Memory 8"></div>
+    <div class="photo" data-caption="Our First Easter 🐰"><img src="image 9.jpg" alt="Memory 9"></div>
+    <div class="photo" data-caption="A Perfect Night With You 🌃"><img src="image 10.jpg" alt="Memory 10"></div>
+    <div class="photo" data-caption="That Perfect Day 🌸"><img src="image 11.jpg" alt="Memory 11"></div>
+    <div class="photo" data-caption="Our First Rave 🎶"><img src="image 12.jpg" alt="Memory 12"></div>
+
+    <!-- Sprite Photos -->
+    <div class="photo sprite-photo" data-caption="Cooking together 🍳">
+      <img src="ChatGPT Image Oct 31, 2025, 01_35_37 PM.png" alt="Cooking together">
+    </div>
+    <div class="photo sprite-photo" data-caption="Pizza night & cuddles 🍕">
+      <img src="ChatGPT Image Oct 31, 2025, 01_35_33 PM.png" alt="Pizza Night">
+    </div>
+    <div class="photo sprite-photo" data-caption="Exploring the farmers market 🌻">
+      <img src="ChatGPT Image Oct 31, 2025, 01_35_30 PM.png" alt="Farmers Market">
+    </div>
+
+    <!-- 💖 Trinkets (clickable like photos) -->
+    <div class="trinket trinket-receipt" data-img="snooze.png" data-caption="Breakfast date at Snooze ☕">
+      <img src="snooze.png" alt="Snooze Receipt">
+    </div>
+
+    <div class="trinket trinket-cert" data-img="Adobe Express - file.png" data-caption="Bluey’s Birth Certificate 🧸">
+      <img src="Adobe Express - file.png" alt="Build-A-Bear Certificate">
+    </div>
+  </div>
+
+  <!-- 📜 Pop-up viewer -->
+  <div id="photo-viewer">
+    <div class="viewer-inner">
+      <img id="viewer-img" src="" alt="Memory">
+      <p id="viewer-caption"></p>
+    </div>
+    <button id="close-viewer">X</button>
+  </div>
+
+  <!-- Navigation + progress -->
+  <div class="nav-buttons">
+    <a href="/pagefour/index.html" class="pixel-button">⬅ BACK</a>
+    <a href="/pagesix/index.html" class="pixel-button">NEXT ➡</a>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-fill"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

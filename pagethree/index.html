@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💕 Anniversary Word Search 💕</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: "Press Start 2P", cursive;
+      background-color: #ffccd5;
+      background-image: radial-gradient(#ffb6c1 1px, transparent 1px);
+      background-size: 20px 20px;
+      color: #7a294e;
+      image-rendering: pixelated;
+      text-shadow: 1px 1px 0px #fff;
+    }
+
+    .pixel-border {
+      border: 4px solid #7a294e;
+      box-shadow: 4px 4px 0 #ff8fab;
+    }
+
+    #puzzle {
+      font-family: "VT323", monospace;
+      font-size: 20px;
+      letter-spacing: 0.4em;
+      line-height: 1.5;
+      color: #7a294e;
+      text-transform: uppercase;
+      image-rendering: pixelated;
+    }
+
+    mark {
+      background-color: #ff8fab;
+      color: #fff;
+      padding: 2px 4px;
+      border-radius: 0;
+      box-shadow: 2px 2px 0 #ffb3c6;
+      animation: glow 1s ease-out;
+    }
+
+    @keyframes glow {
+      0% { box-shadow: 0 0 5px #ff8fab, 0 0 10px #ffb3c6; filter: brightness(1.3); }
+      50% { box-shadow: 0 0 20px #ffb3c6, 0 0 30px #ff8fab; filter: brightness(2); }
+      100% { box-shadow: 2px 2px 0 #ffb3c6; filter: brightness(1); }
+    }
+
+    .sparkle {
+      display: inline-block;
+      animation: sparkleFade 1s ease-out forwards;
+    }
+
+    @keyframes sparkleFade {
+      0% { text-shadow: 0 0 3px #fff, 0 0 5px #ffb6c1, 0 0 10px #ff8fab; transform: scale(1.3); opacity: 1; }
+      100% { text-shadow: none; transform: scale(1); opacity: 1; }
+    }
+
+    button {
+      font-family: "Press Start 2P", cursive;
+      font-size: 10px;
+      border: 3px solid #7a294e;
+      box-shadow: 3px 3px 0 #ff8fab;
+      background-color: #ffd6e0;
+      color: #7a294e;
+      text-transform: uppercase;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background-color: #ff8fab;
+      color: white;
+      transform: scale(1.05);
+      box-shadow: 3px 3px 0 #7a294e;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff8fab;
+      color: white;
+      padding: 10px 20px;
+      border: 3px solid #7a294e;
+      box-shadow: 4px 4px 0 #ffb3c6;
+      font-size: 12px;
+      display: none;
+      animation: pop 0.3s ease;
+      z-index: 50;
+    }
+
+    @keyframes pop {
+      from { transform: translateX(-50%) scale(0.8); opacity: 0; }
+      to { transform: translateX(-50%) scale(1); opacity: 1; }
+    }
+
+    /* Progress bar */
+    .progress-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 18px;
+      background: #ffb3c6;
+      border-top: 3px solid #7a294e;
+      box-shadow: 0 -2px 0 #ff8fab;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 40%; /* Change this % based on progress */
+      background: #7a294e;
+      transition: width 1s ease;
+    }
+
+    /* === PIXEL BUTTON === */
+    .pixel-button {
+      background: #fff;
+      color: #000;
+      border: 3px solid #000;
+      padding: 6px 12px;
+      text-decoration: none;
+      font-size: 12px;
+      box-shadow: 4px 4px #000;
+      transition: all 0.1s ease-in-out;
+      font-family: "Press Start 2P", cursive;
+      text-transform: uppercase;
+    }
+
+    .pixel-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 2px 2px #000;
+    }
+
+    /* Fixed bottom-right position */
+    .pixel-button.bottom-right {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+    }
+
+    /* Navigation button container */
+    .nav-buttons {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      display: flex;
+      gap: 12px;
+      z-index: 60;
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen p-4">
+
+  <div class="w-full max-w-5xl bg-[#ffe5ec] pixel-border rounded-none p-6 md:p-8">
+    <div class="text-center mb-8">
+      <h1 class="text-2xl md:text-3xl font-bold text-[#7a294e] mb-3">💗 Anniversary Word Search 💗</h1>
+      <p class="text-sm md:text-base text-[#b94e75]">Find the hidden words for your love!</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Puzzle Grid Section -->
+      <div class="md:col-span-2 bg-[#ffd6e0] pixel-border p-4 text-center">
+        <h2 class="text-sm mb-4 text-left text-[#7a294e]">✨ The Puzzle ✨</h2>
+        <pre id="puzzle" class="overflow-x-auto p-4 bg-[#fff0f5] pixel-border"></pre>
+      </div>
+
+      <!-- Words to Find Section -->
+      <div class="bg-[#ffd6e0] pixel-border p-6">
+        <h2 class="text-sm mb-4 text-[#7a294e]">💌 Words to Find 💌</h2>
+        <ul id="word-list" class="space-y-2 text-[#7a294e] text-xs"></ul>
+      </div>
+    </div>
+
+    <div class="text-center mt-8">
+      <button id="newPuzzleBtn">↻ New Puzzle</button>
+    </div>
+  </div>
+
+  <!-- Toast popup -->
+  <div id="toast" class="toast"></div>
+
+  <!-- ✅ Updated Back / Next Buttons -->
+  <div class="nav-buttons">
+    <a href="/pagetwo/index.html" class="pixel-button">⬅ BACK</a>
+    <a href="/pagefour/index.html" class="pixel-button">NEXT ➡</a>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-fill"></div>
+  </div>
+
+  <script>
+  const numRows = 10;
+  const numCols = 25;
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+  // 💗 Original starting words
+  let words = ["peach", "love", "furgusons", "bangkok", "november", "anniversary", "sir", "daddy", "kitten", "princess"];
+
+  // 💌 Love letters (you can add more)
+  const loveLetters = [
+    `Even though you're not my first, I want you to be my last. I want to love you until my last breath escapes my lungs. You are my safe place, my heart, my home, my world. I will love you when it’s easy and when it’s hard. You calm my storms, you hold me with gentleness, you show me patience, kindness, and care. You are my rock, my forever, my everything.`,
+    `You are the reason I laugh and the one I want to fall asleep beside. The thought of you makes my chest feel warm. You make life beautiful in the smallest ways. I love how you make chaos feel like peace.`,
+    `When I think about the future, I see you in all of it. You are my favorite person, my comfort, my adventure. Thank you for making love feel safe, simple, and true.`
+  ];
+
+  // 💕 Extract meaningful words only
+  function extractWords(text) {
+    return [...new Set(
+      text
+        .toLowerCase()
+        .replace(/[^a-z\s]/g, '')
+        .split(/\s+/)
+        .filter(w =>
+          w.length > 4 &&
+          w.length < 12 &&
+          ![
+            "because","there","their","which","would","could","should","about","after","before","again","being","every",
+            "where","thing","sleep","asleep","while","never","these","those","whose","where","until","having","without",
+            "someone","something","nothing","make","makes","made","your","you're","youre","theyre","we’re","were",
+            "with","from","this","that","when","what","them","then","than","also","into","over","under","just","have",
+            "been","will","some","take","like","back","even","said","through","reason","smallest","place","thought","lungs","beside",
+            "think","breath","making"
+          ].includes(w)
+        )
+        // 🩷 Prioritize emotional words
+        .sort((a, b) => {
+          const emotional = [
+            "love","heart","home","forever","smile","warm","safe","kiss","touch","beautiful","together","peace","dream",
+            "sweet","care","hug","trust","lucky","gentle","soft","breathe","adore","comfort","hope","moon","sun","light",
+            "happy","soul","baby","precious","calm"
+          ];
+          return emotional.includes(b) - emotional.includes(a);
+        })
+    )];
+  }
+
+  // ✨ Select 10 heartfelt words
+  function getRandomWordsFromLetters() {
+    const allText = loveLetters.join(' ');
+    const allWords = extractWords(allText);
+
+    // Weighted so emotional words appear more often
+    const emotionalWords = allWords.filter(w =>
+      [
+        "love","heart","home","forever","smile","warm","safe","kiss","touch","beautiful","together","peace","dream",
+        "sweet","care","hug","trust","lucky","gentle","soft","breathe","adore","comfort","hope","moon","sun","light",
+        "happy","soul","baby","precious","calm","first","safeplace","gentlness"
+      ].includes(w)
+    );
+
+    const normalWords = allWords.filter(w => !emotionalWords.includes(w));
+    const weightedWords = [...emotionalWords, ...normalWords, ...emotionalWords]; // doubles emotional words' chance
+
+    const selected = [];
+    while (selected.length < 10 && weightedWords.length > 0) { // ⬅️ 10 words max
+      const randomIndex = Math.floor(Math.random() * weightedWords.length);
+      selected.push(weightedWords.splice(randomIndex, 1)[0]);
+    }
+
+    return selected;
+  }
+
+  // 🧩 Puzzle generator
+  function generatePuzzle() {
+    let grid = [];
+    for (let r = 0; r < numRows; r++) {
+      let row = [];
+      for (let c = 0; c < numCols; c++) {
+        row.push(alphabet[Math.floor(Math.random() * alphabet.length)]);
+      }
+      grid.push(row);
+    }
+
+    words.forEach(word => {
+      if (word.length > numCols) return;
+      const row = Math.floor(Math.random() * numRows);
+      const col = Math.floor(Math.random() * (numCols - word.length));
+      for (let i = 0; i < word.length; i++) {
+        grid[row][col + i] = word[i];
+      }
+    });
+    return grid;
+  }
+
+  // 🎀 Display puzzle on screen
+  function displayPuzzle() {
+    const puzzleEl = document.getElementById('puzzle');
+    const wordListEl = document.getElementById('word-list');
+    const grid = generatePuzzle();
+
+    const puzzleString = grid.map(row => row.join('')).join('\n');
+    puzzleEl.innerHTML = puzzleString;
+
+    wordListEl.innerHTML = '';
+    words.forEach(word => {
+      const li = document.createElement('li');
+      li.id = word;
+      li.className = 'bg-[#fff0f5] px-2 py-1 pixel-border text-center';
+      li.textContent = word;
+      wordListEl.appendChild(li);
+    });
+  }
+
+  // 💫 Toast feedback
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.style.display = 'block';
+    setTimeout(() => toast.style.display = 'none', 2000);
+  }
+
+  // Highlight text handling
+  function getHighlightedText() {
+    return window.getSelection ? window.getSelection().toString() : '';
+  }
+
+  document.addEventListener('mouseup', () => {
+    const highlighted = getHighlightedText().toLowerCase().trim();
+    if (highlighted.length > 0) {
+      if (words.includes(highlighted)) {
+        showToast(`💖 You found "${highlighted}"!`);
+        const element = document.getElementById(highlighted);
+        element.classList.add('line-through', 'opacity-60');
+        const puzzle = document.getElementById('puzzle');
+        puzzle.innerHTML = puzzle.innerHTML.replace(
+          new RegExp(highlighted, 'gi'),
+          match => `<mark class="sparkle">${match}</mark>`
+        );
+      } else {
+        showToast(`❌ "${highlighted}" isn’t in the list`);
+      }
+    }
+  });
+
+  // 🚀 Load the first puzzle (your original words)
+  document.addEventListener('DOMContentLoaded', displayPuzzle);
+
+  // ♻️ “New Puzzle” — uses heartfelt words from letters
+  document.getElementById('newPuzzleBtn').addEventListener('click', () => {
+    words = getRandomWordsFromLetters();
+    displayPuzzle();
+    showToast("💌 A new love letter unfolds...");
+  });
+
+  // 🩷 Animate progress bar
+  window.addEventListener('load', () => {
+    const fill = document.querySelector('.progress-fill');
+    if (fill) {
+      const finalWidth = fill.style.width;
+      fill.style.width = '0';
+      setTimeout(() => (fill.style.width = finalWidth), 200);
+    }
+  });
+</script>
+</body>
+</html>

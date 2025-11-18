@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
+
+video#bgVideo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none; /* non-interactive */
+}
+
+/* Credits Container */
+#credits-container {
+  position: fixed;
+  bottom: 0;
+  right: 5%;
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Credits Text */
+#credits {
+  position: relative;
+  animation: scrollUp 68s linear forwards;
+  text-align: right;
+  font-family: 'Press Start 2P', cursive;
+  color: #ffc0cb; /* soft pink */
+  text-shadow: 2px 2px #ff69b4;
+  font-size: 11.5px;
+  line-height: 3em; /* spaced out and cinematic */
+}
+
+#credits p {
+  margin: 35px 0;
+}
+
+/* Animation: scroll bottom → top */
+@keyframes scrollUp {
+  0% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+  90% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+}
+
